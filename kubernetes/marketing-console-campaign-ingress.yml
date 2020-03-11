@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: marketing-console-campaign
+  namespace: staging
+  lable:
+      com.terragonbase.service: marketing-console-campaign
+  
+spec:
+   rules:
+   - host: staging.cw-logger.terragonbase.com
+   backend:
+         serviceName: marketing-console-campaign
+         servicePort: "http"

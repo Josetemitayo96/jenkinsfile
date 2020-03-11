@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: marketing-console-campaign
+ namespace: staging
+spec:
+ type: NodePort
+ ports:
+ - name: "http"
+   port: 80
+   targetPort: 3000
+   protocol: TCP
+ - name: "https"
+   port: 443
+   targetPort: 3000
+   protocol: TCP
+ selector:
+   com.terragonbase.service: marketing-console-campaign
+status:
+ loadBalancer: {}
+
+
+ 

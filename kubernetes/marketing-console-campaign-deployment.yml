@@ -1,0 +1,73 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata: 
+  name: marketing-console-campaign
+  namespace: staging
+  labels:
+    com.terragonbase.service: marketing-console-campaign
+spec:
+  replicas: 1
+  strategy: Recreate 
+  revisionHistoryLimit: 10
+  selector: 
+    matchLabels:
+      com.terragonbase.service: marketing-console-campaign
+    strategy:
+      rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+    type: RollingUpdate
+    template:
+      metadata: 
+        labels: 
+          com.terragonbase.service: marketing-console-campaign
+      spec:
+        containers:
+        - env:
+          - name: API_PORT
+            value: "3000"
+          - name: APP_LOG_PATH
+            value: ../
+          - name: AUTHENTICATION_MICROSERVICE_AUTH_TOKEN
+            value: TERRA=UGbvNnbvNWLn5Wa0V2ayFWb123456543
+          - name: AUTHENTICATION_MICROSERVICE_BASE_URL
+            value: http://staging.authentication-ms.terragonbase.com
+          - name: ENABLE_FILE_LOGGING
+            value: "false"
+          - name: MONGODB_QUERY_LIMIT
+            value: "5000"
+          - name: MONGO_DB_NAME
+            value: marketing_console_campaign
+          - name: MONGO_HOST
+            value: 34.250.58.249
+          - name: MONGO_PASSWORD
+            value: 34RGT89JIPFDSX
+          - name: MONGO_PORT
+            value: "12707"
+          - name: MONGO_USER
+            value: marketing_console_campaign
+          - name: NODE_PATH
+            value: ./app
+          - name: S3BUCKETID
+            value: d25389fc-48ae-4d2e-815c-3a460118b7a8
+          - name: S3URL
+            value: http://staging.terras3.terragonbase.com/upload/file
+          - name: TIMEOUT
+            value: "120000"
+          - name: USER_AUTH_URL
+            value: http://staging.authentication-ms.terragonbase.com        
+        image: 101063123548.dkr.ecr.eu-west-1.amazonaws.com/global/marketing-console-campaign:staging      
+        name: marketing-console-campaign
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: tcp3000
+          protocol: TCP
+        resources: {}
+        stdin: true
+        tty: true
+      restartPolicy: Always
+status: {}
+     
+           
+
